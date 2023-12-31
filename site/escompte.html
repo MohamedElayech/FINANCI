@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINANSI</title>
+    <link rel="stylesheet" href="projet_finale.css">
+</head>
+<body>
+    <nav id="home">
+        <img src="logo.png" alt="logo" id="logo" >
+        <a href="homepage.html" class="page" id="homep">Acceil</a>
+        <a href="interet.html" class="page" id="interp">Interet composé</a>
+        <a href="escompte.html" class="page" id="escp">Escompte</a>
+        <a href="bordereau.html" class="page" id="bordp">Bordereau d'escompte</a>
+    </nav>
+    <main class="mainesc">
+        <div class="intintro">
+            <h2 class="inttitle">Calcule d'escompte</h2>
+            <p class="intertext">Ici vous pouvez calculer les différents paramètres de l'escompre et son applicaions.</p>
+        </div>
+        <div class="esc intdiv intdiv1">
+            <p class="legend">1.Calcule de l'escompte et la valeur actuelle commercial :</p>
+            <label for="" class="inpute">Valeur Nominale : </label>
+            <input type="number" name="v" class="intrinput" id="v" placeholder="Saisir la valeur Nominale"><br>
+            <label for="" class="inpute" >NOmbre de jours : </label>
+            <input type="number" name="nesc1" class="intrinput" id="nesc1" placeholder="Saisir la durée"><br>
+            <label for="" class="date" > Si vous n'avez pas a calculer le nombre de jours defiler à la fin de la page (ou cliquer <a id="cnbjl" href="#cnbjd">ici</a>) pour trouver un outil qui permet de vous aider . </label><br>
+            <label for="" class="inpute">Taux d'intérêt : </label>
+            <input type="number" name="tesc1" class="intrinput" id="tesc1" placeholder="Saisir le taux d'intérêt">
+            <br>
+            <button class="cn" onclick="calculeresc()">Calculer l'escompte</button><br>
+            <div id="result1"></div>
+            
+        </div>
+        <div class="esc intdiv intdiv2" >
+            <p class="legend">2. Calcule de la valeur astuelle commercial :</p>
+            <label for="" class="inpute">Valeur Nominale :</label>
+            <input type="number" name="v" class="intrinput" id="v2" placeholder="Saisir la valeur Nominale"><br>
+            <label for="" class="input">Escomte :</label>
+            <input type="number" class="intrinput" name="esc1" id="esc1" placeholder="Saisir la valeur de l'Escomte">
+            <br>
+            <button class="cn" onclick="calculervac()">Calculer l'escompte</button><br>
+            <div id="result2"></div>
+        </div>
+        <div class="esc intdiv intdiv2">
+            <p class="legend">3.Calcule de la date d'équivalence :</p>
+            <label for="" class="inpute">Valeur Nominale du premier effet :</label>
+            <input type="number" class="intrinput" placeholder="Saisir la valeur nominale de l'effet 1" name="e1" id="e1"><br>
+            <label for="" class="inpute">Valeur Nominale du deuxiemme effet :</label>
+            <input type="number" class="intrinput" placeholder="Saisir la valeur nominale de l'effet 2" name="e2" id="e2"><br>
+            <label for="" class="inpute">La différence entre les deux écheances :</label>
+            <input type="number" class="intrinput" placeholder="Saisir la différence x" name="e3" id="e3"><br>
+            <label for="" class="inpute">Durée 1 :</label>
+            <input type="number" class="intrinput" placeholder="Saisir la durée t" name="e4" id="e4"><br>
+            <button class="cn" onclick="calculerequiv()">Calculer la date d'équivalence</button>
+            <div id="result3"></div>
+        </div>
+        <div class="esc intdiv intdiv1" id="cnbjd">
+            <p class="legend">Note. Calcule du nombre de jours entre la date d'écheance et la dare de négociation :</p>
+            <label for=""> Date d’échéance:</label>
+            <input type="date" id="dateech" class="intrinput">
+            <br>
+            <label for="dateneg"> Date de négociation:</label>
+            <input type="date" id="dateneg" class="intrinput">
+            <br><br>
+            <button onclick= "calculernbj()" class="cn">Calculer le nombre de jours</button>
+            <div id="result"></div>
+        </div>
+    </main>
+    <script>
+        function calculernbj() {
+            let dateech = new Date(document.getElementById("dateech").value);
+            let dateneg = new Date(document.getElementById("dateneg").value);
+            if (dateech > dateneg) {
+                [dateech, dateneg] = [dateneg, dateech];
+            }
+            const diff = dateneg.getTime() - dateech.getTime();
+            const nbj = Math.round(diff / (1000 * 3600 * 24) * 100) / 100;
+            document.getElementById("result").innerHTML = "Le nombre de jours est : "+nbj;
+        }
+
+        function calculeresc(){
+            const num1 = parseFloat(document.getElementById('v').value);
+            const num2 = parseFloat(document.getElementById('nesc1').value);
+            const num3 = parseFloat(document.getElementById('tesc1').value);
+
+            const sum = (num1*num2*num3)/36000;
+
+            // const resultElement = document.getElementById('result');
+            // resultElement.textContent = `The sum is ${sum}`;
+            const sum2 = num1 - sum;
+
+            document.querySelector('#result1').innerHTML="l'esompte est "+sum.toFixed(3)+"<br>";
+            document.querySelector('#result1').innerHTML+="la valeur actuelle commercial est "+sum2.toFixed(3)+ " DT";
+        }
+
+        function calculervac(){
+            const num1 = parseFloat(document.getElementById('v2').value);
+            const num2 = parseFloat(document.getElementById('esc1').value); 
+            const va = num1 - num2 ;
+            document.querySelector('#result2').innerHTML="La valeur acuelle commercial est "+va.toFixed(3)+" DT";
+        }
+
+        function calculerequiv(){
+            const num1 = parseFloat(document.getElementById('e1').value);
+            const num2 = parseFloat(document.getElementById('e2').value);
+            const num3 = parseFloat(document.getElementById('e3').value);
+            const num = parseFloat(document.getelementById('e3').value);
+            const num4 = 36000/num;
+
+            const sum = num4 - ((num3*num2)/num2-num1);
+            document.querySelector('#result3').innerHTML+="la durée d'équivalence est "+num1.toFixed(0)+ "jours";
+        }
+    </script>
+</body>
+</html>
